@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     #Third party
     'drf_spectacular',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'rest_framework.authtoken',
     #Internal apps
     "E_Commerce.product",
     "E_Commerce.accounts",
@@ -46,6 +48,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'E_Commerce.urls'
+
+
 
 TEMPLATES = [
     {
@@ -114,7 +118,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REST_FRAMEWORK = {'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema', }
+REST_FRAMEWORK = {'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema', 
+                  'NON_FIELD_ERRORS_KEY':'errors',
+                  'DEFAULT_AUTHENTICATION_CLASSES': (
+                      'rest_framework.authentication.SessionAuthentication',
+                      'rest_framework.authentication.TokenAuthentication',
+                      'rest_framework.authentication.BasicAuthentication',
+                      'rest_framework_simplejwt.authentication.JWTAuthentication',
+                      'E_Commerce.accounts.jwt.JWTAuthentication'
+
+                  )
+                  }
 
 SPECTACULAR_SETTINGS = {
     'TITLE':'Django DRF Ecommerce',
