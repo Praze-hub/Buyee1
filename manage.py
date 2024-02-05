@@ -10,8 +10,10 @@ def main():
 
     if base.DEBUG:
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'E_Commerce.settings.local')
+        # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'E_Commerce.core.settings')
     else:
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'E_Commerce.settings.production')
+        # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'E_Commerce.core.settings')
 
 
 

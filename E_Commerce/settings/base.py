@@ -13,7 +13,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -23,13 +22,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #Third party
+    # Third party
     'drf_spectacular',
     'rest_framework',
-    #Internal apps
+    'rest_framework_simplejwt',
+    'rest_framework.authtoken',
+    # Internal apps
     "E_Commerce.product",
     "E_Commerce.accounts",
-    
+
 ]
 
 AUTH_USER_MODEL = "accounts.User"
@@ -46,6 +47,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'E_Commerce.urls'
+
 
 TEMPLATES = [
     {
@@ -66,15 +68,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'E_Commerce.wsgi.application'
 
 
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -93,8 +92,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -106,18 +103,28 @@ USE_L10N = True
 USE_TZ = True
 
 
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REST_FRAMEWORK = {'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema', }
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'NON_FIELD_ERRORS_KEY': 'errors',
+    "PAGE_SIZE": 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'E_Commerce.accounts.jwt.JWTAuthentication'
+
+    )
+}
 
 SPECTACULAR_SETTINGS = {
-    'TITLE':'Django DRF Ecommerce',
+    'TITLE': 'Django DRF Ecommerce',
     'VERSION': '1.0.0',
     # 'SWAGGER_UI_DIST': 'SIDECAR',
     # 'SWAGGER_UI_FAVICON_HREF': 'SIDEBAR',
@@ -125,6 +132,3 @@ SPECTACULAR_SETTINGS = {
 }
 # CSP_DEFAULT_SRC = ("'self'","'unsafe-inline'", "cdn.jsdelivr.net")
 # CSP_IMG_SRC = ("'self'", "data:", "cdn.jsdelivr.net")
-
-
-

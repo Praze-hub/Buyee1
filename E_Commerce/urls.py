@@ -20,6 +20,7 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path('api/schema/', SpectacularAPIView.as_view(api_version='v1'), name='schema'),
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema', ), name ='swagger-ui'),
+    path('api/auth/', include('E_Commerce.accounts.urls'))
 ]
 
 if settings.DEBUG:
