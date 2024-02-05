@@ -7,4 +7,6 @@
   source venv/bin/activate
   pip install -r requirements.txt
 
+  python ./E_Commerce/manage.py runserver
+
 ```
